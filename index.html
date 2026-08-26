@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chadwick International · Upper School Dashboard</title>
+<link rel="icon" href="assets/ci_logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ci-red: #CE2023;
+    --ci-red-bright: #DE352D;
+    --ci-slate: #333e48;
+    --ci-navy: #123a6f;
+    --ci-blue: #2A72A2;
+    --ci-gray: #6a6f77;
+    --ci-bg: #f1f3f4;
+    --ci-line: #d6d6d6;
+    --font-cond: "gill-sans-nova-condensed", "Pathway Gothic One", "Arial Narrow", sans-serif;
+    --font-body: "gill-sans-nova", "Gill Sans", "Gill Sans MT", "Lato", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ci-slate);
+    background: var(--ci-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Top bar ─────────────────────────── */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--ci-line);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-inner {
+    max-width: 1180px; margin: 0 auto; padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .topbar img.logo { height: 52px; width: auto; }
+  .school-name {
+    font-family: var(--font-cond);
+    font-size: 24px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--ci-slate); line-height: 1.05;
+  }
+  .school-name small {
+    display: block; font-size: 12px; letter-spacing: 3.5px; color: var(--ci-red);
+  }
+  .topbar .search {
+    margin-left: auto; display: flex; align-items: center; gap: 8px;
+  }
+  .topbar input {
+    font-family: var(--font-body); font-size: 14px;
+    border: 1px solid var(--ci-line); border-radius: 999px;
+    padding: 8px 16px; width: 220px; outline: none;
+    color: var(--ci-slate); background: var(--ci-bg);
+  }
+  .topbar input:focus { border-color: var(--ci-red); background: #fff; }
+
+  /* ── Air quality banner ──────────────── */
+  .aqi-strip {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 7px 24px; font-size: 13.5px; font-weight: 700; letter-spacing: .3px;
+    background: var(--ci-slate); color: #fff;
+    transition: background .3s ease, color .3s ease;
+  }
+  .aqi-strip .aqi-kicker {
+    font-family: var(--font-cond); font-size: 12.5px; letter-spacing: 2.5px;
+    text-transform: uppercase; opacity: .8; font-weight: 400;
+  }
+  .aqi-strip .aqi-dot {
+    width: 9px; height: 9px; border-radius: 50%; background: currentColor;
+    box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+  }
+  .aqi-strip .aqi-detail { font-weight: 400; opacity: .85; }
+  .aqi-strip .aqi-more { font-weight: 400; opacity: .7; font-size: 12px; }
+  @media (max-width: 640px) { .aqi-strip .aqi-detail { display: none; } }
+
+  /* ── Hero ────────────────────────────── */
+  .hero {
+    position: relative; color: #fff;
+    background:
+      linear-gradient(100deg, rgba(51,62,72,.92) 0%, rgba(51,62,72,.72) 45%, rgba(206,32,35,.55) 100%),
+      url("https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_5/v1567309941/chadwickis/moblhw2yezku8ho7g0ma/Home_02.jpg") center 35%/cover no-repeat;
+  }
+  .hero-inner {
+    max-width: 1180px; margin: 0 auto; padding: 64px 24px 56px;
+  }
+  .hero .kicker {
+    font-family: var(--font-cond); font-size: 15px;
+    letter-spacing: 4px; text-transform: uppercase; opacity: .85;
+  }
+  .hero h1 {
+    font-family: var(--font-cond); font-weight: 400;
+    font-size: 58px; letter-spacing: 3px; text-transform: uppercase;
+    line-height: 1.02; margin: 10px 0 14px;
+  }
+  .hero p { font-size: 17px; font-weight: 300; max-width: 560px; opacity: .92; }
+  .hero .rule { width: 64px; height: 4px; background: var(--ci-red-bright); margin-top: 22px; }
+
+  /* ── Layout ──────────────────────────── */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 24px; }
+  section { margin-bottom: 44px; }
+  h2 {
+    font-family: var(--font-cond); font-weight: 400;
+    font-size: 30px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--ci-slate); margin-bottom: 4px;
+  }
+  .sec-sub { font-size: 14px; color: var(--ci-gray); margin-bottom: 16px; }
+  h2::after { content: ""; display: block; width: 44px; height: 3px; background: var(--ci-red); margin-top: 8px; }
+
+  /* ── App grid ────────────────────────── */
+  .apps {
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    margin-top: 18px;
+  }
+  .app {
+    background: #fff; border: 1px solid var(--ci-line); border-radius: 10px;
+    padding: 18px 14px 16px; text-align: center;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .app:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(51,62,72,.12); border-color: var(--ci-red); }
+  .app .tile {
+    width: 52px; height: 52px; margin: 0 auto 10px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-cond); font-size: 22px; letter-spacing: 1px;
+    color: #fff;
+  }
+  .app .tile.icon {
+    background: #fff; border: 1px solid var(--ci-line); padding: 6px;
+  }
+  .app .tile.icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+  .app .name { font-size: 14.5px; font-weight: 700; color: var(--ci-slate); }
+  .app .desc { font-size: 12px; color: var(--ci-gray); margin-top: 3px; }
+
+  /* ── Card grid (documents / forms) ───── */
+  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); margin-top: 18px; }
+  .card {
+    background: #fff; border: 1px solid var(--ci-line); border-radius: 10px;
+    padding: 20px 18px 18px; display: flex; flex-direction: column; gap: 12px;
+    align-items: flex-start;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(51,62,72,.12); border-color: var(--ci-red); }
+  .card .badge {
+    flex: none; width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-cond); font-size: 14px; letter-spacing: 1px; color: #fff;
+  }
+  .badge.red { background: var(--ci-red); }
+  .badge.slate { background: var(--ci-slate); }
+  .badge.navy { background: var(--ci-navy); }
+  .badge.blue { background: var(--ci-blue); }
+  .card h3 { font-size: 16.5px; font-weight: 700; line-height: 1.25; }
+  .card p { font-size: 13.5px; color: var(--ci-gray); margin-top: 4px; line-height: 1.45; }
+
+  /* ── Two-column band (lunch + clubs) ─── */
+  .band { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 760px) { .band { grid-template-columns: 1fr; } }
+  .panel {
+    border-radius: 10px; color: #fff; padding: 28px 26px;
+    display: flex; flex-direction: column; gap: 8px; min-height: 150px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .panel:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(51,62,72,.2); }
+  .panel .p-kicker { font-family: var(--font-cond); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
+  .panel .p-title { font-family: var(--font-cond); font-size: 32px; letter-spacing: 2px; text-transform: uppercase; line-height: 1.05; }
+  .panel .p-desc { font-size: 14px; font-weight: 300; opacity: .9; max-width: 400px; }
+  .panel .p-cta { margin-top: auto; font-size: 13px; font-weight: 700; letter-spacing: .5px; }
+  .panel.lunch { background: linear-gradient(115deg, var(--ci-slate), #1f2830); }
+  .panel.clubs { background: linear-gradient(115deg, var(--ci-red), #8f1416); }
+
+  /* ── Widget board (SFS-style) ────────── */
+  .wgrid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    margin-top: 18px;
+  }
+  .widget {
+    background: #fff; border: 1px solid var(--ci-line); border-radius: 14px;
+    padding: 18px 20px; height: 430px;
+    display: flex; flex-direction: column; overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .widget:hover { border-color: var(--ci-red); box-shadow: 0 8px 22px rgba(51,62,72,.10); }
+  .w-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-shrink: 0; }
+  .w-icon {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-cond); font-size: 13px;
+  }
+  .w-icon svg { width: 16px; height: 16px; stroke-width: 2; }
+  .w-title {
+    font-family: var(--font-cond); font-weight: 400; font-size: 17px;
+    letter-spacing: 1.8px; text-transform: uppercase; color: var(--ci-slate);
+  }
+  .w-link {
+    margin-left: auto; font-size: 12.5px; font-weight: 700; color: var(--ci-red);
+    white-space: nowrap;
+  }
+  .w-link:hover { text-decoration: underline; }
+  .w-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+
+  /* Instagram mini-grid inside a widget */
+  .ig-mini { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+  .ig-item { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: var(--ci-line); }
+  .ig-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+  .ig-item:hover img { transform: scale(1.06); }
+  .ig-item .vid {
+    position: absolute; top: 8px; right: 8px; width: 22px; height: 22px;
+    border-radius: 50%; background: rgba(0,0,0,.55); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 10px;
+  }
+  .ig-follow-card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    height: 100%; border: 1px dashed var(--ci-line); border-radius: 10px;
+    font-size: 13px; font-weight: 700; color: var(--ci-red); text-align: center; padding: 16px;
+  }
+  .ig-follow-card:hover { border-color: var(--ci-red); }
+  .ig-follow-card .at { font-family: var(--font-cond); font-size: 18px; letter-spacing: 1px; color: var(--ci-slate); }
+  .ig-follow-card img { width: 44px; height: 44px; opacity: .85; }
+
+  /* Row lists inside widgets (YouTube / news / world) */
+  .row { display: flex; gap: 12px; align-items: center; padding: 9px 6px; border-radius: 8px; }
+  .row:hover { background: var(--ci-bg); }
+  .row + .row { border-top: 1px solid var(--ci-bg); }
+  .row img.rthumb { width: 92px; height: 56px; object-fit: cover; border-radius: 7px; flex: none; background: var(--ci-line); }
+  .row img.rthumb.sq { width: 60px; height: 60px; }
+  .row .rmain { min-width: 0; }
+  .row .t { font-size: 13.5px; font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .row .d { font-size: 11.5px; color: var(--ci-gray); margin-top: 3px; }
+  .chip {
+    display: inline-block; font-family: var(--font-cond); font-size: 10.5px;
+    letter-spacing: 1.5px; text-transform: uppercase; color: #fff;
+    padding: 2px 8px 1px; border-radius: 999px; margin-bottom: 4px;
+  }
+  .chip.IHE { background: var(--ci-navy); }
+  .chip.Forbes { background: #333e48; }
+  .chip.USN { background: var(--ci-blue); }
+  .chip.Niche { background: #737b17; }
+  .chip.world { background: var(--ci-slate); }
+  .updated-tag { font-size: 12px; color: var(--ci-gray); font-weight: 400; }
+
+  /* Notes widget */
+  .notes-toolbar { display: flex; gap: 4px; align-items: center; border-bottom: 1px solid var(--ci-bg); padding-bottom: 10px; margin-bottom: 10px; flex-shrink: 0; }
+  .notes-toolbar button {
+    width: 30px; height: 30px; border: 1px solid transparent; border-radius: 6px;
+    background: transparent; color: var(--ci-slate); font-size: 13px; cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .notes-toolbar button:hover { background: var(--ci-bg); border-color: var(--ci-line); }
+  .notes-toolbar .sep { width: 1px; height: 16px; background: var(--ci-line); margin: 0 5px; }
+  .notes-status { margin-left: auto; font-size: 11.5px; color: var(--ci-gray); }
+  .notes-editor { flex: 1; overflow-y: auto; outline: none; font-size: 14px; line-height: 1.6; color: var(--ci-slate); }
+  .notes-editor:empty::before { content: attr(data-placeholder); color: var(--ci-gray); }
+  .notes-editor ul { padding-left: 20px; }
+
+  /* ── Footer ──────────────────────────── */
+  footer {
+    background: var(--ci-slate); color: #cfd4d9;
+    margin-top: 24px; padding: 30px 24px;
+  }
+  .foot-inner { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .foot-inner img { height: 44px; filter: none; }
+  .foot-inner .f-name { font-family: var(--font-cond); letter-spacing: 2.5px; text-transform: uppercase; font-size: 17px; color: #fff; }
+  .foot-inner .f-meta { margin-left: auto; font-size: 12.5px; text-align: right; line-height: 1.6; }
+  .foot-inner .f-meta b { color: #fff; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <img class="logo" src="assets/ci_logo.svg" alt="Chadwick International">
+    <div class="school-name">Chadwick International<small>Upper School Dashboard · 2026–27</small></div>
+    <div class="search"><input id="q" type="search" placeholder="Search links…" autocomplete="off"></div>
+  </div>
+  <a class="aqi-strip" id="aqi" href="https://www.iqair.com/air-quality/south-korea/incheon/incheon/aam" target="_blank" rel="noopener">
+    <span class="aqi-kicker">Songdo Air Quality</span>
+    <span class="aqi-dot"></span>
+    <span class="aqi-main" id="aqi-main">Loading…</span>
+    <span class="aqi-detail" id="aqi-detail"></span>
+    <span class="aqi-more">IQAir Incheon →</span>
+  </a>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="kicker">Songdo · Incheon · Korea</div>
+    <h1>Upper School<br>Student Dashboard</h1>
+    <p>Every handbook, form, app, and link you need for the 2026–27 school year, all in one place.</p>
+    <div class="rule"></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ══ Apps ══ -->
+  <section id="apps-sec">
+    <h2>Daily Apps</h2>
+    <div class="sec-sub">Sign in with your @chadwickschool.org Google account.</div>
+    <div class="apps">
+      <a class="app" href="https://classroom.google.com/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/classroom.svg" alt="Google Classroom" loading="lazy"></div>
+        <div class="name">Google Classroom</div><div class="desc">Assignments &amp; classes</div>
+      </a>
+      <a class="app" href="https://mail.google.com/a/chadwickschool.org" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/gmail.png" alt="Gmail" loading="lazy"></div>
+        <div class="name">Gmail</div><div class="desc">School email</div>
+      </a>
+      <a class="app" href="https://drive.google.com/a/chadwickschool.org" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/drive.png" alt="Google Drive" loading="lazy"></div>
+        <div class="name">Google Drive</div><div class="desc">Files &amp; docs</div>
+      </a>
+      <a class="app" href="https://calendar.google.com/a/chadwickschool.org" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/calendar.png" alt="Google Calendar" loading="lazy"></div>
+        <div class="name">Google Calendar</div><div class="desc">Schedule</div>
+      </a>
+      <a class="app" href="https://app.marioeducation.com/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/mario.png" alt="Mario" loading="lazy"></div>
+        <div class="name">Mario</div><div class="desc">Student support</div>
+      </a>
+      <a class="app" href="https://www.canva.com/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/canva.png" alt="Canva" loading="lazy"></div>
+        <div class="name">Canva</div><div class="desc">Design</div>
+      </a>
+      <a class="app" href="https://app.grammarly.com/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/grammarly.png" alt="Grammarly" loading="lazy"></div>
+        <div class="name">Grammarly</div><div class="desc">Writing checker</div>
+      </a>
+      <a class="app" href="https://test.mapnwea.org/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/map.png" alt="MAP Testing" loading="lazy"></div>
+        <div class="name">MAP Testing</div><div class="desc">NWEA browser</div>
+      </a>
+      <a class="app" href="https://quizlet.com/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/quizlet.png" alt="Quizlet" loading="lazy"></div>
+        <div class="name">Quizlet</div><div class="desc">Flashcards</div>
+      </a>
+      <a class="app" href="https://app.flintk12.com/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/flint.png" alt="Flint AI" loading="lazy"></div>
+        <div class="name">Flint AI</div><div class="desc">School AI tutor</div>
+      </a>
+      <a class="app" href="https://chadwick.managebac.com/student/home" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/managebac.png" alt="ManageBac" loading="lazy"></div>
+        <div class="name">ManageBac</div><div class="desc">IB coursework &amp; CAS</div>
+      </a>
+      <a class="app" href="https://portals.veracross.com/chadwickinternational/" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/icons/veracross.png" alt="Veracross" loading="lazy"></div>
+        <div class="name">Veracross</div><div class="desc">Grades &amp; records</div>
+      </a>
+      <a class="app" href="https://www.chadwickinternational.org/student" target="_blank" rel="noopener">
+        <div class="tile icon"><img src="assets/ci_logo.svg" alt="Chadwick Student Portal" loading="lazy"></div>
+        <div class="name">Student Portal</div><div class="desc">chadwickinternational.org</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ Handbooks & documents ══ -->
+  <section id="docs-sec">
+    <h2>Handbooks &amp; Documents</h2>
+    <div class="sec-sub">Official Upper School references for 2026–27.</div>
+    <div class="cards">
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/6467266b-fa1a-48ee-93a0-240a8c88c664" target="_blank" rel="noopener">
+        <div class="badge red">HB</div>
+        <div><h3>2026–27 US Student Handbook</h3><p>Policies, expectations, and daily life in the Upper School.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/3a03a29f-f628-441e-aac1-90fc3275d91c" target="_blank" rel="noopener">
+        <div class="badge slate">CAS</div>
+        <div><h3>DP CAS Handbook</h3><p>Creativity, Activity, Service requirements for the IB Diploma Programme.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/file.cfm?7D869E8797C64ABA" target="_blank" rel="noopener">
+        <div class="badge navy">11·12</div>
+        <div><h3>Grade 11–12 Course Pathways</h3><p>Course sequences and options for the DP years.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/799a768a-b8ef-4535-ba96-7842f8bd5708" target="_blank" rel="noopener">
+        <div class="badge blue">CL</div>
+        <div><h3>Clubs in the Upper School</h3><p>Official list of Upper School clubs and activities.</p></div>
+      </a>
+      <a class="card" href="https://docs.google.com/document/d/1cIcEshNuNConJQUz5NATJE_ocKM7TSgyITODAWdOJ0U/edit?usp=drivesdk" target="_blank" rel="noopener">
+        <div class="badge slate">SR</div>
+        <div><h3>Summer Book Reading Information</h3><p>Required and recommended summer reading.</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ Forms ══ -->
+  <section id="forms-sec">
+    <h2>Forms</h2>
+    <div class="sec-sub">Some forms require your school Google account to open.</div>
+    <div class="cards">
+      <a class="card" href="https://docs.google.com/a/chadwickschool.org/forms/d/e/1FAIpQLSeZpNEsI-h2BDPOtdAvqcVOujL3kxSJ12u3vuy8iN3s9aXqUQ/viewform" target="_blank" rel="noopener">
+        <div class="badge red">RF</div>
+        <div><h3>Student Report Form</h3><p>Report a concern or incident to the Upper School office.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/794defc8-09ea-4b79-b838-136d450f043b" target="_blank" rel="noopener">
+        <div class="badge slate">MW</div>
+        <div><h3>Student Missed Work Form</h3><p>Catch up on work missed during an absence.</p></div>
+      </a>
+      <a class="card" href="https://docs.google.com/a/chadwickschool.org/forms/d/e/1FAIpQLSfnPuVP1sMIXnp-B77DY7Lz31A92IzgxckyD1Yuev1NgZcmAA/viewform" target="_blank" rel="noopener">
+        <div class="badge navy">EP</div>
+        <div><h3>US Event Planning Form</h3><p>Propose and plan a student event.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/file.cfm?B3CD51CB5F27F625" target="_blank" rel="noopener">
+        <div class="badge blue">OC</div>
+        <div><h3>Off Campus Waiver Form</h3><p>Permission form for leaving campus.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/pages/1554" target="_blank" rel="noopener">
+        <div class="badge slate">ID</div>
+        <div><h3>Student ID Card Request</h3><p>Request a new or replacement student ID card.</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ Lunch + Clubs ══ -->
+  <section id="life-sec">
+    <h2>Campus Life</h2>
+    <div class="sec-sub">Lunch menu and the full club directory.</div>
+    <div class="band" style="margin-top:18px">
+      <a class="panel lunch" href="https://www.chadwickinternational.org/student?_tscb=1786580845265" target="_blank" rel="noopener">
+        <div class="p-kicker">Today at School</div>
+        <div class="p-title">Lunch Menu</div>
+        <div class="p-desc">This week's cafeteria menu on the student page.</div>
+        <div class="p-cta">Open menu →</div>
+      </a>
+      <a class="panel clubs" href="https://club-hub-e70ad.web.app/" target="_blank" rel="noopener">
+        <div class="p-kicker">Get Involved</div>
+        <div class="p-title">Club Hub</div>
+        <div class="p-desc">Browse every Upper School club and find where you belong.</div>
+        <div class="p-cta">Explore all clubs →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ Widget board: media + news + notes ══ -->
+  <section id="board-sec">
+    <h2>News &amp; Media</h2>
+    <div class="sec-sub" style="display:flex;gap:10px;align-items:baseline">Instagram, CISPN broadcasts, admissions and world headlines. <span class="updated-tag" id="news-updated"></span></div>
+    <div class="wgrid">
+
+      <div class="widget" data-wid="ig-athletics">
+        <div class="w-head">
+          <div class="w-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3 class="w-title">CI Athletics</h3>
+          <a class="w-link" href="https://www.instagram.com/ci_athletics/" target="_blank" rel="noopener">@ci_athletics →</a>
+        </div>
+        <div class="w-body"><div class="ig-mini" id="ig-athletics-body"></div></div>
+      </div>
+
+      <div class="widget" data-wid="ig-school">
+        <div class="w-head">
+          <div class="w-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3 class="w-title">Chadwick Intl</h3>
+          <a class="w-link" href="https://www.instagram.com/intl_chadwick/" target="_blank" rel="noopener">@intl_chadwick →</a>
+        </div>
+        <div class="w-body"><div class="ig-mini" id="ig-school-body"></div></div>
+      </div>
+
+      <div class="widget" data-wid="cispn">
+        <div class="w-head">
+          <div class="w-icon" style="background:#CE2023">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3 class="w-title">CISPN Songdo</h3>
+          <a class="w-link" href="https://www.youtube.com/c/CISPNSongdo" target="_blank" rel="noopener">YouTube →</a>
+        </div>
+        <div class="w-body" id="yt-body"></div>
+      </div>
+
+      <div class="widget" data-wid="admissions">
+        <div class="w-head">
+          <div class="w-icon" style="background:var(--ci-navy)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+          </div>
+          <h3 class="w-title">College Admissions</h3>
+        </div>
+        <div class="w-body" id="admissions-body"></div>
+      </div>
+
+      <div class="widget" data-wid="world">
+        <div class="w-head">
+          <div class="w-icon" style="background:var(--ci-slate)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
+          </div>
+          <h3 class="w-title">World &amp; Reading</h3>
+        </div>
+        <div class="w-body" id="world-body"></div>
+      </div>
+
+      <div class="widget" data-wid="notes">
+        <div class="w-head">
+          <div class="w-icon" style="background:var(--ci-blue)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          </div>
+          <h3 class="w-title">My Notes</h3>
+          <span class="notes-status" id="notes-status"></span>
+        </div>
+        <div class="notes-toolbar">
+          <button type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+          <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+          <button type="button" data-cmd="underline" title="Underline"><u>U</u></button>
+          <span class="sep"></span>
+          <button type="button" data-cmd="insertUnorderedList" title="Bullet list">•≡</button>
+          <button type="button" data-cmd="removeFormat" title="Clear formatting">⌫</button>
+        </div>
+        <div class="notes-editor" id="notes" contenteditable="true" data-placeholder="Type anything — homework, reminders, locker combo…"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <img src="assets/Chadwick_Logo_White.svg" alt="Chadwick International">
+    <div class="f-name">Chadwick International</div>
+    <div class="f-meta">
+      <b>Upper School Student Dashboard · 2026–27</b><br>
+      Made by Yeojun · Unofficial student resource
+    </div>
+  </div>
+</footer>
+
+<script src="assets/media.js"></script>
+<script>
+  // ── Widget board renderers (snapshot data from refresh_media.py) ──
+  const M = window.CI_MEDIA || {};
+
+  function renderIG(elId, account, profileUrl) {
+    const el = document.getElementById(elId);
+    const data = (M.instagram || {})[account];
+    if (!data || !data.posts?.length) {
+      el.style.display = 'block';
+      el.innerHTML = `<a class="ig-follow-card" href="${profileUrl}" target="_blank" rel="noopener">
+        <img src="assets/ci_logo.svg" alt=""><span class="at">@${account}</span><span>See latest posts →</span></a>`;
+      return;
+    }
+    el.innerHTML = data.posts.map(p => `
+      <a class="ig-item" href="https://www.instagram.com/p/${p.code}/" target="_blank" rel="noopener" title="${(p.caption||'').replace(/"/g,'&quot;')}">
+        <img src="${p.img}" alt="Instagram post" loading="lazy">
+        ${p.video ? '<span class="vid">▶</span>' : ''}
+      </a>`).join('');
+  }
+  renderIG('ig-athletics-body', 'ci_athletics', 'https://www.instagram.com/ci_athletics/');
+  renderIG('ig-school-body', 'intl_chadwick', 'https://www.instagram.com/intl_chadwick/');
+
+  document.getElementById('yt-body').innerHTML = (M.youtube || []).map(v => `
+    <a class="row" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+      <img class="rthumb" src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="" loading="lazy">
+      <div class="rmain"><div class="t">${v.title}</div><div class="d">${v.published}</div></div>
+    </a>`).join('');
+
+  document.getElementById('admissions-body').innerHTML = (M.admissions || []).map(a => `
+    <a class="row" href="${a.url}" target="_blank" rel="noopener">
+      <div class="rmain"><span class="chip ${a.tag}">${a.outlet}</span>
+      <div class="t">${a.title}</div><div class="d">${a.date}</div></div>
+    </a>`).join('') || '<div class="sec-sub">No headlines in this snapshot — run refresh_media.py.</div>';
+
+  document.getElementById('world-body').innerHTML = (M.world || []).map(w => `
+    <a class="row" href="${w.url}" target="_blank" rel="noopener">
+      <img class="rthumb sq" src="${w.thumb}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div class="rmain"><span class="chip world">${w.source}</span><div class="t">${w.title}</div><div class="d">${w.date}</div></div>
+    </a>`).join('');
+
+  if (M.updated) document.getElementById('news-updated').textContent = `Updated ${M.updated}`;
+
+  // ── Notes (localStorage) ──
+  const notes = document.getElementById('notes');
+  const notesStatus = document.getElementById('notes-status');
+  try { notes.innerHTML = localStorage.getItem('ci_notes') || ''; } catch (e) {}
+  let noteTimer;
+  notes.addEventListener('input', () => {
+    clearTimeout(noteTimer);
+    notesStatus.textContent = 'Saving…';
+    noteTimer = setTimeout(() => {
+      try {
+        localStorage.setItem('ci_notes', notes.innerHTML);
+        notesStatus.textContent = 'Saved ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      } catch (e) { notesStatus.textContent = 'Could not save'; }
+    }, 400);
+  });
+  document.querySelectorAll('.notes-toolbar button').forEach(b =>
+    b.addEventListener('click', () => { document.execCommand(b.dataset.cmd); notes.focus(); }));
+
+  // ── Search filter across everything ──
+  const q = document.getElementById('q');
+  const SEL = '.app, .card, .panel, .ig-item, .row';
+  q.addEventListener('input', () => {
+    const term = q.value.trim().toLowerCase();
+    document.querySelectorAll(SEL).forEach(el => {
+      el.classList.toggle('hidden', term && !el.textContent.toLowerCase().includes(term));
+    });
+    const visSel = SEL.split(', ').map(s => s + ':not(.hidden)').join(', ');
+    document.querySelectorAll('.widget').forEach(w => {
+      if (w.dataset.wid === 'notes') { w.classList.toggle('hidden', !!term); return; }
+      w.classList.toggle('hidden', term && !w.querySelector(visSel));
+    });
+    document.querySelectorAll('main section').forEach(sec => {
+      const visible = sec.querySelector(visSel);
+      sec.classList.toggle('hidden', term && !visible);
+    });
+  });
+
+  // Live air quality for Songdo (Open-Meteo, no key) — banner links to IQAir Incheon
+  (async () => {
+    const main = document.getElementById('aqi-main');
+    const detail = document.getElementById('aqi-detail');
+    const strip = document.getElementById('aqi');
+    const levels = [
+      [50,  'Good',                           '#009966', '#fff'],
+      [100, 'Moderate',                       '#b0891a', '#fff'],
+      [150, 'Unhealthy for Sensitive Groups', '#e07b28', '#fff'],
+      [200, 'Unhealthy',                      '#cc0033', '#fff'],
+      [300, 'Very Unhealthy',                 '#660099', '#fff'],
+      [999, 'Hazardous',                      '#7e0023', '#fff'],
+    ];
+    try {
+      const r = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=37.3894&longitude=126.6389&current=us_aqi,pm2_5,pm10&timezone=Asia%2FSeoul');
+      const d = (await r.json()).current;
+      const aqi = Math.round(d.us_aqi);
+      const [, label, bg, fg] = levels.find(([max]) => aqi <= max);
+      main.textContent = `AQI ${aqi} · ${label}`;
+      detail.textContent = `PM2.5 ${Math.round(d.pm2_5)} µg/m³ · PM10 ${Math.round(d.pm10)} µg/m³`;
+      strip.style.background = bg;
+      strip.style.color = fg;
+    } catch (e) {
+      main.textContent = 'Check today’s air quality';
+      detail.textContent = '';
+    }
+  })();
+</script>
+
+</body>
+</html>
