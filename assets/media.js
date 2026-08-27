@@ -42,6 +42,47 @@ window.CI_MEDIA = {
           "caption": "Introducing your 26-27 Varsity Boys Cross Country Team! Let’s go Dolphins! 🐬🐬🏃🏃🔥🔥\n\ndc. Hyuk Lee (12)"
         }
       ]
+    },
+    "intl_chadwick": {
+      "followers": null,
+      "posts": [
+        {
+          "code": "DcfLEojCS1g",
+          "img": "assets/insta/intl_chadwick_DcfLEojCS1g.jpg",
+          "video": false,
+          "caption": ""
+        },
+        {
+          "code": "DcZ-5tfC7m5",
+          "img": "assets/insta/intl_chadwick_DcZ-5tfC7m5.jpg",
+          "video": true,
+          "caption": ""
+        },
+        {
+          "code": "DcR9Nh0ARyY",
+          "img": "assets/insta/intl_chadwick_DcR9Nh0ARyY.jpg",
+          "video": false,
+          "caption": ""
+        },
+        {
+          "code": "DcNfQ16Ccy5",
+          "img": "assets/insta/intl_chadwick_DcNfQ16Ccy5.jpg",
+          "video": false,
+          "caption": ""
+        },
+        {
+          "code": "DcLGwa_CWHE",
+          "img": "assets/insta/intl_chadwick_DcLGwa_CWHE.jpg",
+          "video": false,
+          "caption": ""
+        },
+        {
+          "code": "DbmPrFUAbOQ",
+          "img": "assets/insta/intl_chadwick_DbmPrFUAbOQ.jpg",
+          "video": false,
+          "caption": ""
+        }
+      ]
     }
   },
   "youtube": [
