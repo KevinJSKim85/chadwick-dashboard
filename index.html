@@ -49,8 +49,17 @@
   .school-name small {
     display: block; font-size: 12px; letter-spacing: 3.5px; color: var(--ci-red);
   }
+  .top-btns { margin-left: auto; display: flex; gap: 8px; }
+  .top-btn {
+    font-family: var(--font-cond); font-size: 14px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--ci-red); white-space: nowrap;
+    border: 1.5px solid var(--ci-red); border-radius: 999px; padding: 6px 16px 5px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .top-btn:hover { background: var(--ci-red); color: #fff; }
+  @media (max-width: 720px) { .top-btns { display: none; } }
   .topbar .search {
-    margin-left: auto; display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px;
   }
   .topbar input {
     font-family: var(--font-body); font-size: 14px;
@@ -88,7 +97,26 @@
   }
   .hero-inner {
     max-width: 1180px; margin: 0 auto; padding: 64px 24px 56px;
+    position: relative;
   }
+  .hero-weather {
+    position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-radius: 14px; padding: 18px 22px; text-align: center; min-width: 170px;
+  }
+  .hero-weather .wx-kicker {
+    font-family: var(--font-cond); font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase; opacity: .85;
+  }
+  .hero-weather .wx-main {
+    display: flex; align-items: center; justify-content: center; gap: 10px; margin: 6px 0 2px;
+  }
+  .hero-weather .wx-emoji { font-size: 34px; line-height: 1; }
+  .hero-weather .wx-temp { font-family: var(--font-cond); font-size: 44px; letter-spacing: 1px; line-height: 1; }
+  .hero-weather .wx-cond { font-size: 13px; font-weight: 700; }
+  .hero-weather .wx-sub { font-size: 12px; opacity: .85; margin-top: 4px; font-weight: 300; }
+  @media (max-width: 860px) { .hero-weather { display: none; } }
   .hero .kicker {
     font-family: var(--font-cond); font-size: 15px;
     letter-spacing: 4px; text-transform: uppercase; opacity: .85;
@@ -112,51 +140,64 @@
   .sec-sub { font-size: 14px; color: var(--ci-gray); margin-bottom: 16px; }
   h2::after { content: ""; display: block; width: 44px; height: 3px; background: var(--ci-red); margin-top: 8px; }
 
-  /* ── App grid ────────────────────────── */
+  /* ── App bar (SFS quicklinks style: compact, horizontal scroll) ── */
   .apps {
-    display: grid; gap: 14px;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    margin-top: 18px;
+    display: flex; gap: 8px; overflow-x: auto; margin-top: 18px;
+    background: #fff; border: 1px solid var(--ci-line); border-radius: 14px;
+    padding: 12px;
+    scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
   }
+  .apps::-webkit-scrollbar { height: 6px; }
+  .apps::-webkit-scrollbar-track { background: transparent; }
+  .apps::-webkit-scrollbar-thumb { background: var(--ci-line); border-radius: 3px; }
   .app {
-    background: #fff; border: 1px solid var(--ci-line); border-radius: 10px;
-    padding: 18px 14px 16px; text-align: center;
-    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    flex: 1 0 auto; min-width: 92px; border-radius: 10px;
+    padding: 10px 10px 9px; text-align: center;
+    transition: background .15s ease;
   }
-  .app:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(51,62,72,.12); border-color: var(--ci-red); }
+  .app:hover { background: var(--ci-bg); }
   .app .tile {
-    width: 52px; height: 52px; margin: 0 auto 10px; border-radius: 12px;
+    width: 38px; height: 38px; margin: 0 auto 7px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-cond); font-size: 22px; letter-spacing: 1px;
+    font-family: var(--font-cond); font-size: 16px; letter-spacing: 1px;
     color: #fff;
   }
   .app .tile.icon {
-    background: #fff; border: 1px solid var(--ci-line); padding: 6px;
+    background: #fff; border: 1px solid var(--ci-line); padding: 4px;
   }
-  .app .tile.icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
-  .app .name { font-size: 14.5px; font-weight: 700; color: var(--ci-slate); }
-  .app .desc { font-size: 12px; color: var(--ci-gray); margin-top: 3px; }
+  .app .tile.icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 5px; }
+  .app .name {
+    font-size: 12.5px; font-weight: 700; color: var(--ci-slate);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;
+    margin: 0 auto;
+  }
+  .app .desc { display: none; }
 
-  /* ── Card grid (documents / forms) ───── */
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); margin-top: 18px; }
+  /* ── Compact row cards (documents / forms) ── */
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); margin-top: 18px; }
   .card {
     background: #fff; border: 1px solid var(--ci-line); border-radius: 10px;
-    padding: 20px 18px 18px; display: flex; flex-direction: column; gap: 12px;
-    align-items: flex-start;
-    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    padding: 12px 14px; display: flex; flex-direction: row; gap: 12px;
+    align-items: center;
+    transition: border-color .12s ease, box-shadow .12s ease;
   }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(51,62,72,.12); border-color: var(--ci-red); }
+  .card:hover { box-shadow: 0 5px 14px rgba(51,62,72,.10); border-color: var(--ci-red); }
   .card .badge {
-    flex: none; width: 44px; height: 44px; border-radius: 10px;
+    flex: none; width: 36px; height: 36px; border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-cond); font-size: 14px; letter-spacing: 1px; color: #fff;
+    font-family: var(--font-cond); font-size: 12px; letter-spacing: .5px; color: #fff;
   }
   .badge.red { background: var(--ci-red); }
   .badge.slate { background: var(--ci-slate); }
   .badge.navy { background: var(--ci-navy); }
   .badge.blue { background: var(--ci-blue); }
-  .card h3 { font-size: 16.5px; font-weight: 700; line-height: 1.25; }
-  .card p { font-size: 13.5px; color: var(--ci-gray); margin-top: 4px; line-height: 1.45; }
+  .card > div:last-child { min-width: 0; }
+  .card h3 { font-size: 14.5px; font-weight: 700; line-height: 1.25; }
+  .card p {
+    font-size: 12.5px; color: var(--ci-gray); margin-top: 2px; line-height: 1.4;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
 
   /* ── Two-column band (lunch + clubs) ─── */
   .band { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
@@ -295,6 +336,10 @@
   <div class="topbar-inner">
     <img class="logo" src="assets/ci_logo.svg" alt="Chadwick International">
     <div class="school-name">Chadwick International<small>Upper School Dashboard · 2026–27</small></div>
+    <nav class="top-btns">
+      <a class="top-btn" href="https://www.chadwickinternational.org/student?_tscb=1786580845265" target="_blank" rel="noopener">Lunch Menu</a>
+      <a class="top-btn" href="https://club-hub-e70ad.web.app/" target="_blank" rel="noopener">Club Hub</a>
+    </nav>
     <div class="search"><input id="q" type="search" placeholder="Search links…" autocomplete="off"></div>
   </div>
   <a class="aqi-strip" id="aqi" href="https://www.iqair.com/air-quality/south-korea/incheon/incheon/aam" target="_blank" rel="noopener">
@@ -312,6 +357,12 @@
     <h1>Upper School<br>Student Dashboard</h1>
     <p>Every handbook, form, app, and link you need for the 2026–27 school year, all in one place.</p>
     <div class="rule"></div>
+    <div class="hero-weather" id="wx" hidden>
+      <div class="wx-kicker">Songdo Weather</div>
+      <div class="wx-main"><span class="wx-emoji" id="wx-emoji"></span><span class="wx-temp" id="wx-temp"></span></div>
+      <div class="wx-cond" id="wx-cond"></div>
+      <div class="wx-sub" id="wx-sub"></div>
+    </div>
   </div>
 </div>
 
@@ -373,90 +424,6 @@
       <a class="app" href="https://www.chadwickinternational.org/student" target="_blank" rel="noopener">
         <div class="tile icon"><img src="assets/ci_logo.svg" alt="Chadwick Student Portal" loading="lazy"></div>
         <div class="name">Student Portal</div><div class="desc">chadwickinternational.org</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ══ Handbooks & documents ══ -->
-  <section id="docs-sec">
-    <h2>Handbooks &amp; Documents</h2>
-    <div class="sec-sub">Official Upper School references for 2026–27.</div>
-    <div class="cards">
-      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/6467266b-fa1a-48ee-93a0-240a8c88c664" target="_blank" rel="noopener">
-        <div class="badge red">HB</div>
-        <div><h3>2026–27 US Student Handbook</h3><p>Policies, expectations, and daily life in the Upper School.</p></div>
-      </a>
-      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/3a03a29f-f628-441e-aac1-90fc3275d91c" target="_blank" rel="noopener">
-        <div class="badge slate">CAS</div>
-        <div><h3>DP CAS Handbook</h3><p>Creativity, Activity, Service requirements for the IB Diploma Programme.</p></div>
-      </a>
-      <a class="card" href="https://www.chadwickinternational.org/file.cfm?7D869E8797C64ABA" target="_blank" rel="noopener">
-        <div class="badge navy">11·12</div>
-        <div><h3>Grade 11–12 Course Pathways</h3><p>Course sequences and options for the DP years.</p></div>
-      </a>
-      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/799a768a-b8ef-4535-ba96-7842f8bd5708" target="_blank" rel="noopener">
-        <div class="badge blue">CL</div>
-        <div><h3>Clubs in the Upper School</h3><p>Official list of Upper School clubs and activities.</p></div>
-      </a>
-      <a class="card" href="https://docs.google.com/document/d/1cIcEshNuNConJQUz5NATJE_ocKM7TSgyITODAWdOJ0U/edit?usp=drivesdk" target="_blank" rel="noopener">
-        <div class="badge slate">SR</div>
-        <div><h3>Summer Book Reading Information</h3><p>Required and recommended summer reading.</p></div>
-      </a>
-      <a class="card" href="https://docs.google.com/spreadsheets/d/1Lqnu3CBPgJBtk3_-zao_vQAO7D57ZCby9CTEMM8vLF8/edit?gid=0#gid=0" target="_blank" rel="noopener">
-        <div class="badge navy">OCC</div>
-        <div><h3>OCC Master Events Calendar</h3><p>All college counseling events and university visits for the year.</p></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ══ Forms ══ -->
-  <section id="forms-sec">
-    <h2>Forms</h2>
-    <div class="sec-sub">Some forms require your school Google account to open.</div>
-    <div class="cards">
-      <a class="card" href="https://docs.google.com/a/chadwickschool.org/forms/d/e/1FAIpQLSeZpNEsI-h2BDPOtdAvqcVOujL3kxSJ12u3vuy8iN3s9aXqUQ/viewform" target="_blank" rel="noopener">
-        <div class="badge red">RF</div>
-        <div><h3>Student Report Form</h3><p>Report a concern or incident to the Upper School office.</p></div>
-      </a>
-      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/794defc8-09ea-4b79-b838-136d450f043b" target="_blank" rel="noopener">
-        <div class="badge slate">MW</div>
-        <div><h3>Student Missed Work Form</h3><p>Catch up on work missed during an absence.</p></div>
-      </a>
-      <a class="card" href="https://docs.google.com/a/chadwickschool.org/forms/d/e/1FAIpQLSfnPuVP1sMIXnp-B77DY7Lz31A92IzgxckyD1Yuev1NgZcmAA/viewform" target="_blank" rel="noopener">
-        <div class="badge navy">EP</div>
-        <div><h3>US Event Planning Form</h3><p>Propose and plan a student event.</p></div>
-      </a>
-      <a class="card" href="https://www.chadwickinternational.org/file.cfm?B3CD51CB5F27F625" target="_blank" rel="noopener">
-        <div class="badge blue">OC</div>
-        <div><h3>Off Campus Waiver Form</h3><p>Permission form for leaving campus.</p></div>
-      </a>
-      <a class="card" href="https://www.chadwickinternational.org/fs/pages/1554" target="_blank" rel="noopener">
-        <div class="badge slate">ID</div>
-        <div><h3>Student ID Card Request</h3><p>Request a new or replacement student ID card.</p></div>
-      </a>
-      <a class="card" href="https://docs.google.com/forms/d/e/1FAIpQLSeahHgGEpZ7FcXYLA3q9rhDL8qgS83o5s2bvTzxznQb6Uan4w/viewform" target="_blank" rel="noopener">
-        <div class="badge red">PC</div>
-        <div><h3>Parent Contact Consent Form</h3><p>Join your grade's parent communication group (CIPA, OE, and more).</p></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ══ Lunch + Clubs ══ -->
-  <section id="life-sec">
-    <h2>Campus Life</h2>
-    <div class="sec-sub">Lunch menu and the full club directory.</div>
-    <div class="band" style="margin-top:18px">
-      <a class="panel lunch" href="https://www.chadwickinternational.org/student?_tscb=1786580845265" target="_blank" rel="noopener">
-        <div class="p-kicker">Today at School</div>
-        <div class="p-title">Lunch Menu</div>
-        <div class="p-desc">This week's cafeteria menu on the student page.</div>
-        <div class="p-cta">Open menu →</div>
-      </a>
-      <a class="panel clubs" href="https://club-hub-e70ad.web.app/" target="_blank" rel="noopener">
-        <div class="p-kicker">Get Involved</div>
-        <div class="p-title">Club Hub</div>
-        <div class="p-desc">Browse every Upper School club and find where you belong.</div>
-        <div class="p-cta">Explore all clubs →</div>
       </a>
     </div>
   </section>
@@ -551,6 +518,90 @@
         <div class="notes-editor" id="notes" contenteditable="true" data-placeholder="Type anything — homework, reminders, locker combo…"></div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ══ Handbooks & documents ══ -->
+  <section id="docs-sec">
+    <h2>Handbooks &amp; Documents</h2>
+    <div class="sec-sub">Official Upper School references for 2026–27.</div>
+    <div class="cards">
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/6467266b-fa1a-48ee-93a0-240a8c88c664" target="_blank" rel="noopener">
+        <div class="badge red">HB</div>
+        <div><h3>2026–27 US Student Handbook</h3><p>Policies, expectations, and daily life in the Upper School.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/3a03a29f-f628-441e-aac1-90fc3275d91c" target="_blank" rel="noopener">
+        <div class="badge slate">CAS</div>
+        <div><h3>DP CAS Handbook</h3><p>Creativity, Activity, Service requirements for the IB Diploma Programme.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/file.cfm?7D869E8797C64ABA" target="_blank" rel="noopener">
+        <div class="badge navy">11·12</div>
+        <div><h3>Grade 11–12 Course Pathways</h3><p>Course sequences and options for the DP years.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/799a768a-b8ef-4535-ba96-7842f8bd5708" target="_blank" rel="noopener">
+        <div class="badge blue">CL</div>
+        <div><h3>Clubs in the Upper School</h3><p>Official list of Upper School clubs and activities.</p></div>
+      </a>
+      <a class="card" href="https://docs.google.com/document/d/1cIcEshNuNConJQUz5NATJE_ocKM7TSgyITODAWdOJ0U/edit?usp=drivesdk" target="_blank" rel="noopener">
+        <div class="badge slate">SR</div>
+        <div><h3>Summer Book Reading Information</h3><p>Required and recommended summer reading.</p></div>
+      </a>
+      <a class="card" href="https://docs.google.com/spreadsheets/d/1Lqnu3CBPgJBtk3_-zao_vQAO7D57ZCby9CTEMM8vLF8/edit?gid=0#gid=0" target="_blank" rel="noopener">
+        <div class="badge navy">OCC</div>
+        <div><h3>OCC Master Events Calendar</h3><p>All college counseling events and university visits for the year.</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ Forms ══ -->
+  <section id="forms-sec">
+    <h2>Forms</h2>
+    <div class="sec-sub">Some forms require your school Google account to open.</div>
+    <div class="cards">
+      <a class="card" href="https://docs.google.com/a/chadwickschool.org/forms/d/e/1FAIpQLSeZpNEsI-h2BDPOtdAvqcVOujL3kxSJ12u3vuy8iN3s9aXqUQ/viewform" target="_blank" rel="noopener">
+        <div class="badge red">RF</div>
+        <div><h3>Student Report Form</h3><p>Report a concern or incident to the Upper School office.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/resource-manager/view/794defc8-09ea-4b79-b838-136d450f043b" target="_blank" rel="noopener">
+        <div class="badge slate">MW</div>
+        <div><h3>Student Missed Work Form</h3><p>Catch up on work missed during an absence.</p></div>
+      </a>
+      <a class="card" href="https://docs.google.com/a/chadwickschool.org/forms/d/e/1FAIpQLSfnPuVP1sMIXnp-B77DY7Lz31A92IzgxckyD1Yuev1NgZcmAA/viewform" target="_blank" rel="noopener">
+        <div class="badge navy">EP</div>
+        <div><h3>US Event Planning Form</h3><p>Propose and plan a student event.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/file.cfm?B3CD51CB5F27F625" target="_blank" rel="noopener">
+        <div class="badge blue">OC</div>
+        <div><h3>Off Campus Waiver Form</h3><p>Permission form for leaving campus.</p></div>
+      </a>
+      <a class="card" href="https://www.chadwickinternational.org/fs/pages/1554" target="_blank" rel="noopener">
+        <div class="badge slate">ID</div>
+        <div><h3>Student ID Card Request</h3><p>Request a new or replacement student ID card.</p></div>
+      </a>
+      <a class="card" href="https://docs.google.com/forms/d/e/1FAIpQLSeahHgGEpZ7FcXYLA3q9rhDL8qgS83o5s2bvTzxznQb6Uan4w/viewform" target="_blank" rel="noopener">
+        <div class="badge red">PC</div>
+        <div><h3>Parent Contact Consent Form</h3><p>Join your grade's parent communication group (CIPA, OE, and more).</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ Lunch + Clubs ══ -->
+  <section id="life-sec">
+    <h2>Campus Life</h2>
+    <div class="sec-sub">Lunch menu and the full club directory.</div>
+    <div class="band" style="margin-top:18px">
+      <a class="panel lunch" href="https://www.chadwickinternational.org/student?_tscb=1786580845265" target="_blank" rel="noopener">
+        <div class="p-kicker">Today at School</div>
+        <div class="p-title">Lunch Menu</div>
+        <div class="p-desc">This week's cafeteria menu on the student page.</div>
+        <div class="p-cta">Open menu →</div>
+      </a>
+      <a class="panel clubs" href="https://club-hub-e70ad.web.app/" target="_blank" rel="noopener">
+        <div class="p-kicker">Get Involved</div>
+        <div class="p-title">Club Hub</div>
+        <div class="p-desc">Browse every Upper School club and find where you belong.</div>
+        <div class="p-cta">Explore all clubs →</div>
+      </a>
     </div>
   </section>
 
@@ -657,6 +708,29 @@
       sec.classList.toggle('hidden', term && !visible);
     });
   });
+
+  // Songdo weather card in the hero (Open-Meteo forecast, no key)
+  (async () => {
+    const WMO = {
+      0:['☀️','Clear'],1:['🌤️','Mostly clear'],2:['⛅','Partly cloudy'],3:['☁️','Overcast'],
+      45:['🌫️','Fog'],48:['🌫️','Fog'],51:['🌦️','Drizzle'],53:['🌦️','Drizzle'],55:['🌧️','Drizzle'],
+      61:['🌧️','Rain'],63:['🌧️','Rain'],65:['🌧️','Heavy rain'],66:['🌧️','Freezing rain'],67:['🌧️','Freezing rain'],
+      71:['🌨️','Snow'],73:['🌨️','Snow'],75:['❄️','Heavy snow'],77:['🌨️','Snow grains'],
+      80:['🌦️','Showers'],81:['🌧️','Showers'],82:['⛈️','Heavy showers'],
+      85:['🌨️','Snow showers'],86:['❄️','Snow showers'],95:['⛈️','Thunderstorm'],96:['⛈️','Thunderstorm'],99:['⛈️','Thunderstorm'],
+    };
+    try {
+      const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.3894&longitude=126.6389&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=Asia%2FSeoul');
+      const d = await r.json();
+      const [emoji, label] = WMO[d.current.weather_code] || ['🌡️',''];
+      document.getElementById('wx-emoji').textContent = emoji;
+      document.getElementById('wx-temp').textContent = Math.round(d.current.temperature_2m) + '°';
+      document.getElementById('wx-cond').textContent = label;
+      document.getElementById('wx-sub').textContent =
+        `H ${Math.round(d.daily.temperature_2m_max[0])}° · L ${Math.round(d.daily.temperature_2m_min[0])}° · Feels ${Math.round(d.current.apparent_temperature)}° · ${d.current.relative_humidity_2m}%`;
+      document.getElementById('wx').hidden = false;
+    } catch (e) { /* card stays hidden on failure */ }
+  })();
 
   // Live air quality for Songdo (Open-Meteo, no key) — banner links to IQAir Incheon
   (async () => {
