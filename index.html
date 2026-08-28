@@ -52,11 +52,11 @@
   .top-btns { margin-left: auto; display: flex; gap: 8px; }
   .top-btn {
     font-family: var(--font-cond); font-size: 14px; letter-spacing: 1.5px;
-    text-transform: uppercase; color: var(--ci-red); white-space: nowrap;
-    border: 1.5px solid var(--ci-red); border-radius: 999px; padding: 6px 16px 5px;
+    text-transform: uppercase; color: var(--ci-navy); white-space: nowrap;
+    border: 1.5px solid var(--ci-navy); border-radius: 999px; padding: 6px 16px 5px;
     transition: background .15s ease, color .15s ease;
   }
-  .top-btn:hover { background: var(--ci-red); color: #fff; }
+  .top-btn:hover { background: var(--ci-navy); color: #fff; }
   @media (max-width: 720px) { .top-btns { display: none; } }
   .topbar .search {
     display: flex; align-items: center; gap: 8px;
@@ -92,7 +92,7 @@
   .hero {
     position: relative; color: #fff;
     background:
-      linear-gradient(100deg, rgba(51,62,72,.92) 0%, rgba(51,62,72,.72) 45%, rgba(206,32,35,.55) 100%),
+      linear-gradient(100deg, rgba(17,33,51,.95) 0%, rgba(18,58,111,.80) 55%, rgba(42,114,162,.50) 100%),
       url("https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_5/v1567309941/chadwickis/moblhw2yezku8ho7g0ma/Home_02.jpg") center 35%/cover no-repeat;
   }
   .hero-inner {
@@ -215,7 +215,7 @@
   .panel .p-desc { font-size: 14px; font-weight: 300; opacity: .9; max-width: 400px; }
   .panel .p-cta { margin-top: auto; font-size: 13px; font-weight: 700; letter-spacing: .5px; }
   .panel.lunch { background: linear-gradient(115deg, var(--ci-slate), #1f2830); }
-  .panel.clubs { background: linear-gradient(115deg, var(--ci-red), #8f1416); }
+  .panel.clubs { background: linear-gradient(115deg, var(--ci-navy), #0c2547); }
 
   /* ── Widget board (SFS-style) ────────── */
   .wgrid {
@@ -320,7 +320,7 @@
 
   /* ── Footer ──────────────────────────── */
   footer {
-    background: var(--ci-slate); color: #cfd4d9;
+    background: #112133; color: #cfd4d9;
     margin-top: 24px; padding: 30px 24px;
   }
   .foot-inner { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -438,7 +438,7 @@
 
       <div class="widget" data-wid="newsletter">
         <div class="w-head">
-          <div class="w-icon" style="background:var(--ci-red)">
+          <div class="w-icon" style="background:var(--ci-navy)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V9"/><path d="M12 6h6M12 10h6M12 14h6M12 18h4"/></svg>
           </div>
           <h3 class="w-title">US Newsletter</h3>
