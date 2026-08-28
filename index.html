@@ -204,22 +204,6 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  /* ── Two-column band (lunch + clubs) ─── */
-  .band { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
-  @media (max-width: 760px) { .band { grid-template-columns: 1fr; } }
-  .panel {
-    border-radius: 10px; color: #fff; padding: 28px 26px;
-    display: flex; flex-direction: column; gap: 8px; min-height: 150px;
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-  .panel:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(51,62,72,.2); }
-  .panel .p-kicker { font-family: var(--font-cond); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
-  .panel .p-title { font-family: var(--font-cond); font-size: 32px; letter-spacing: 2px; text-transform: uppercase; line-height: 1.05; }
-  .panel .p-desc { font-size: 14px; font-weight: 300; opacity: .9; max-width: 400px; }
-  .panel .p-cta { margin-top: auto; font-size: 13px; font-weight: 700; letter-spacing: .5px; }
-  .panel.lunch { background: linear-gradient(115deg, var(--ci-slate), #1f2830); }
-  .panel.clubs { background: linear-gradient(115deg, var(--ci-navy), #0c2547); }
-
   /* ── Widget board (SFS-style) ────────── */
   .wgrid {
     display: grid; gap: 18px;
@@ -590,25 +574,6 @@
     </div>
   </section>
 
-  <!-- ══ Lunch + Clubs ══ -->
-  <section id="life-sec">
-    <h2>Campus Life</h2>
-    <div class="sec-sub">Lunch menu and the full club directory.</div>
-    <div class="band" style="margin-top:18px">
-      <a class="panel lunch" href="https://www.chadwickinternational.org/student?_tscb=1786580845265" target="_blank" rel="noopener">
-        <div class="p-kicker">Today at School</div>
-        <div class="p-title">Lunch Menu</div>
-        <div class="p-desc">This week's cafeteria menu on the student page.</div>
-        <div class="p-cta">Open menu →</div>
-      </a>
-      <a class="panel clubs" href="https://club-hub-e70ad.web.app/" target="_blank" rel="noopener">
-        <div class="p-kicker">Get Involved</div>
-        <div class="p-title">Club Hub</div>
-        <div class="p-desc">Browse every Upper School club and find where you belong.</div>
-        <div class="p-cta">Explore all clubs →</div>
-      </a>
-    </div>
-  </section>
 
 </main>
 
